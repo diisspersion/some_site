@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-secondary: #636e72;
+            --cpu-color: #0984e3;
+            --ram-color: #6c5ce7;
+            --disk-color: #00b894;
+            --proc-color: #e17055;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        /* Прогрес-бари */
+        .progress-container {
+            background-color: #dfe6e9;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Кольори для різних метрик */
+        .cpu-bar { background-color: var(--cpu-color); }
+        .ram-bar { background-color: var(--ram-color); }
+        .disk-bar { background-color: var(--disk-color); }
+
+        .processes-count {
+            color: var(--proc-color);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="card">
+        <div class="card-header">
+            <span class="label">CPU Usage</span>
+            <span class="value">{{ cpu }}%</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar cpu-bar" style="width: 45.2%"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="label">RAM Usage</span>
+            <span class="value">{{ ram }}%</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar ram-bar" style="width: 62.8%"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="label">Disk Usage</span>
+            <span class="value">{{ disk_usage }}%</span>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar disk-bar" style="width: 15%"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="label">Running Processes</span>
+        </div>
+        <div class="processes-count">{{ processes }}</div>
+    </div>
+</div>
+
+</body>
+</html>

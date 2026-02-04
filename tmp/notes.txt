@@ -1,0 +1,12 @@
+
+# Install FastAPI
+pip install "fastapi[standard]"
+pip install psutil
+pip install jinja2
+
+# Start the app
+uvicorn app:app --reload
+
+sudo docker rm -f eager_grothendieck
+sudo docker build -t basic_app .
+sudo docker run -p 8000:8000 basic_app

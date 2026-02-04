@@ -1,0 +1,16 @@
+# Ігноруємо папку з залежностями Python
+venv/
+.env
+__pycache__/
+
+# Ігноруємо історію Git та Docker-файли
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+
+# Ігноруємо логи та тимчасові файли
+*.log
+tmp/
+.DS_Store
+scripts/

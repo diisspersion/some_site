@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="styles/style.css"> -->
+     <link rel="stylesheet" href="{{ url_for('static', path='/styles/style.css') }}">
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2>Добро пожаловать</h2>
+            <p class="subtitle">Пожалуйста, войдите в свой аккаунт</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                </div>
+
+                <button type="submit" class="btn-login">Войти</button>
+                
+                <div class="footer-links">
+                    <a href="#">Забыли пароль?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='scripts/script.js') }}"></script>
+
+</body>
+</html>
