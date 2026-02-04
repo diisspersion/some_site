@@ -2,7 +2,7 @@ test:
   image: alpine
   script: 
     - echo "Start"
-    - mkdir build
-    - cd build
+    - mkdir test_dir
+    - cd test_dir
     - touch car.txt
     - echo "chassis" > car.txt
