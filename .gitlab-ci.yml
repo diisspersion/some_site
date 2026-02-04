@@ -1,4 +1,2 @@
-test_job:
-  stage: test
-  script:
-    - echo "Success"
+test:
+  script: echo "Hello!"
