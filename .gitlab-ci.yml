@@ -1,6 +1,4 @@
 test_job:
   stage: test
-  tags:
-    - d-tag  # той, що ви вказували при sudo gitlab-runner register
   script:
     - echo "Success"
