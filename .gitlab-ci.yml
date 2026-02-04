@@ -1,2 +1,8 @@
 test:
-  script: echo "Hello!"
+  image: alpine
+  script: 
+    - echo "Start"
+    - mkdir build
+    - cd build
+    - touch car.txt
+    - echo "chassis" > car.txt
