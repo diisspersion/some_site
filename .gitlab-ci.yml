@@ -1,11 +1,6 @@
-stages:
-  - test
-
 test_job:
   stage: test
-  script:
-    - echo "Hello from GitLab Runner!"
-    - hostname
-    - whoami
   tags:
-    - all  # Укажите здесь тег, который вы вводили при регистрации раннера
+    - d-tag  # той, що ви вказували при sudo gitlab-runner register
+  script:
+    - echo "Success"
