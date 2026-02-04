@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test_job:
+  stage: test
+  script:
+    - echo "Hello from GitLab Runner!"
+    - hostname
+    - whoami
+  tags:
+    - my-tag  # Укажите здесь тег, который вы вводили при регистрации раннера
