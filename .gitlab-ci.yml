@@ -6,3 +6,10 @@ test:
     - cd test_dir
     - touch car.txt
     - echo "chassis" > car.txt
+    - cat car.txt
+
+test_car:
+  image: alpine
+  script: 
+  - test -f build/car.txt
+  - grep "chassis" car.txt
