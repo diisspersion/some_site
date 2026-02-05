@@ -21,4 +21,4 @@ test_car:
   stage: test
   script: 
   - test -f test_dir/car.txt
-  - grep "chassis" car.txt
+  - grep "chassis" test_dir/car.txt
