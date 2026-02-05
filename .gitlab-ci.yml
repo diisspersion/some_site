@@ -14,7 +14,7 @@ build_car:
     - cat car.txt
   artifacts:
     paths:
-      - build/
+      - test_dir/
 
 test_car:
   image: alpine
