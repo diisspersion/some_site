@@ -20,5 +20,5 @@ test_car:
   image: alpine
   stage: test
   script: 
-  - test -f build/car.txt
+  - test -f test_dir/car.txt
   - grep "chassis" car.txt
