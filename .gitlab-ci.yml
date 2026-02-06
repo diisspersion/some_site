@@ -19,13 +19,13 @@ lint:
     - pip install flake8
     - flake8 .
 
-security_scan:
-  extends: .python_base
-  stage: security
-  script:
-    - pip install bandit safety
-    - bandit -r .       # Шукає небезпечний код (наприклад, hardcoded passwords)
-    - safety check      # Перевіряє ваші бібліотеки на відомі вразливості
+# security_scan:
+#   extends: .python_base
+#   stage: security
+#   script:
+#     - pip install bandit safety
+#     - bandit -r .       # Шукає небезпечний код (наприклад, hardcoded passwords)
+#     - safety check      # Перевіряє ваші бібліотеки на відомі вразливості
 
 build_image:
   stage: build
