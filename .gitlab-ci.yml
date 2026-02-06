@@ -2,6 +2,7 @@ stages:
   - build
   - test
 
+# Just a comment
 build_car:
   image: alpine
   stage: build
@@ -11,6 +12,8 @@ build_car:
     - cd test_dir
     - touch car.txt
     - echo "chassis" > car.txt
+    - echo "chassis_2" >> car.txt
+    - echo "chassis_3" >> car.txt
     - cat car.txt
   artifacts:
     paths:
@@ -22,3 +25,5 @@ test_car:
   script: 
   - test -f test_dir/car.txt
   - grep "chassis" test_dir/car.txt
+  - grep "chassis_2" test_dir/car.txt
+  - grep "chassis_3" test_dir/car.txt
