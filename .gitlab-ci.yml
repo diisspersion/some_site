@@ -16,7 +16,7 @@ lint:
   extends: .python_base
   stage: lint
   script:
-    - sudo pip install flake8
+    - pip install flake8
     - flake8 .
 
 security_scan:
