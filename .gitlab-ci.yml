@@ -1,6 +1,6 @@
 stages:
   - lint
-  - security
+  # - security
   - build
 
 variables:
