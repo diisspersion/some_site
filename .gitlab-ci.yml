@@ -1,29 +1,37 @@
 stages:
+  - lint
+  - security
   - build
-  - test
 
-# Just a comment
-build_car:
-  image: alpine
+variables:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+.python_base:
+  image: python:3.10-slim
+  before_script:
+    - pip install -r requirements.txt
+
+lint:
+  extends: .python_base
+  stage: lint
+  script:
+    - sudo pip install flake8
+    - flake8 .
+
+security_scan:
+  extends: .python_base
+  stage: security
+  script:
+    - pip install bandit safety
+    - bandit -r .       # Шукає небезпечний код (наприклад, hardcoded passwords)
+    - safety check      # Перевіряє ваші бібліотеки на відомі вразливості
+
+build_image:
   stage: build
-  script: 
-    - echo "Start"
-    - mkdir test_dir
-    - cd test_dir
-    - touch car.txt
-    - echo "chassis" > car.txt
-    - echo "chassis_2" >> car.txt
-    - echo "chassis_3" >> car.txt
-    - cat car.txt
-  artifacts:
-    paths:
-      - test_dir/
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t my-app:$CI_COMMIT_SHORT_SHA .
 
-test_car:
-  image: alpine
-  stage: test
-  script: 
-  - test -f test_dir/car.txt
-  - grep "chassis" test_dir/car.txt
-  - grep "chassis_2" test_dir/car.txt
-  - grep "chassis_3" test_dir/car.txt
