@@ -33,5 +33,5 @@ build_image:
   services:
     - docker:dind
   script:
-    - docker build -t my-app:$CI_COMMIT_SHORT_SHA ./app/.
+    - docker build -t my-app:$CI_COMMIT_SHORT_SHA ./build/.
 
