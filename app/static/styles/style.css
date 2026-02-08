@@ -1,4 +1,4 @@
-/* Сброс стандартных стилей */
+/* Reset default browser styles */
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +7,7 @@
 }
 
 body {
+    /* Full-screen background with a diagonal gradient */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     height: 100vh;
     display: flex;
@@ -14,7 +15,7 @@ body {
     align-items: center;
 }
 
-/* Контейнер формы (Карточка) */
+/* Main form container (Card) */
 .login-card {
     background: #ffffff;
     width: 100%;
@@ -23,10 +24,11 @@ body {
     border-radius: 12px;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
+    /* Smooth transition for hover effects */
     transition: transform 0.3s ease;
 }
 
-/* Легкая анимация при наведении на карточку */
+/* Subtle lift animation on hover */
 .login-card:hover {
     transform: translateY(-5px);
 }
@@ -43,7 +45,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Группы инпутов */
+/* Input group styling for labels and fields */
 .input-group {
     margin-bottom: 20px;
     text-align: left;
@@ -67,13 +69,13 @@ body {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Эффект фокуса на полях */
+/* Highlight input field on focus */
 .input-group input:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* Кнопка */
+/* Login button styling */
 .btn-login {
     width: 100%;
     padding: 12px;
@@ -88,8 +90,9 @@ body {
     margin-top: 10px;
 }
 
+/* Interaction effects: hover and click (active) */
 .btn-login:hover {
-    background: linear-gradient(to right, #764ba2, #667eea); /* Инверсия градиента */
+    background: linear-gradient(to right, #764ba2, #667eea); /* Swap gradient colors */
     transform: scale(1.02);
 }
 
@@ -97,7 +100,7 @@ body {
     transform: scale(0.98);
 }
 
-/* Ссылки внизу */
+/* Links located at the bottom of the card */
 .footer-links {
     margin-top: 20px;
 }
@@ -114,7 +117,7 @@ body {
     text-decoration: underline;
 }
 
-/* Адаптив для мобильных устройств */
+/* Responsive adjustments for mobile devices */
 @media (max-width: 450px) {
     .login-card {
         margin: 20px;

@@ -4,14 +4,15 @@ stages:
   - build
 
 variables:
-  # Python settings
+  # Prevent Python from writing .pyc files and enable real-time logging
   PYTHONDONTWRITEBYTECODE: "1"
   PYTHONUNBUFFERED: "1"
 
-  # Docker names
+  # Docker configuration
   DOCKERFILE_PATH: "./build/Dockerfile"
   CONTAINER_NAME: "some_site"
 
+# Base template for Python jobs to reduce code duplication
 .python_base:
   image: python:3.10-slim
   before_script:
@@ -23,21 +24,21 @@ lint:
   stage: lint
   script:
     - pip install flake8
-    - flake8 .
+    - flake8 . # Perform static code analysis
 
 security_scan:
   extends: .python_base
   stage: security
   script:
     - pip install bandit safety
-    - bandit -r .       # Шукає небезпечний код (наприклад, hardcoded passwords)
-    - safety check      # Перевіряє ваші бібліотеки на відомі вразливості
+    - bandit -r .       # Check for security vulnerabilities in code (e.g., hardcoded credentials)
+    - safety check      # Scan dependencies for known security flaws
 
 build_image:
   stage: build
   image: docker:latest
   services:
-    - docker:dind
+    - docker:dind       # Enable Docker-in-Docker to build images inside the runner
   script:
+    # Build the image using the short commit SHA as a unique tag
     - docker build -f "$DOCKERFILE_PATH" -t "$CONTAINER_NAME:$CI_COMMIT_SHORT_SHA" .
-
