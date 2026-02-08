@@ -4,13 +4,20 @@ IMAGE_NAME="basic_app"
 CONTAINER_NAME="basic_app"
 DOCKERFILE_PATH="./build/Dockerfile"
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+
 if ! sudo -v; then
-  echo "Error: sudo authentication failed. Aborting."
+  echo -e "${RED}Error: sudo authentication failed. Aborting."
   exit 1
 fi
 
 echo "--- Building/updating the image ---"
-sudo docker build -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .
+if ! sudo docker build -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .; then
+  echo -e "${RED}Error: Building/updating the image."
+  exit 1
+fi
 
 echo "--- Stopping and removing the old container (if it exists) ---"
 sudo docker rm -f "$CONTAINER_NAME" 2>/dev/null || true
