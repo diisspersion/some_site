@@ -18,19 +18,22 @@ app = FastAPI(title="System Resource Monitor")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+
 # Pydantic model for login data validation
 class LoginRequest(BaseModel):
     username: str
     password: str
 
+
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     """Render the initial login page."""
     return templates.TemplateResponse(
-        request=request, 
-        name="index.html", 
+        request=request,
+        name="index.html",
         context={"request": request}
     )
+
 
 @app.post("/login")
 async def login(data: LoginRequest):
@@ -39,6 +42,7 @@ async def login(data: LoginRequest):
         return {"redirect_url": "/stats"}
 
     raise HTTPException(status_code=401, detail="Invalid username or password")
+
 
 @app.get("/stats", response_class=HTMLResponse)
 def stats_page(request: Request):
