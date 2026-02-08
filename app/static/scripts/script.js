@@ -1,35 +1,32 @@
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
-    // 1. Отменяем стандартную отправку формы (чтобы страница не перезагружалась)
     event.preventDefault();
 
-    // 2. Собираем данные из полей формы
     const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries()); 
-    // В data теперь лежит объект: { username: "ваше_имя", password: "ваш_пароль" }
+    const payload = Object.fromEntries(formData.entries());
 
     try {
-        // 3. Отправляем запрос на сервер
-        const response = await fetch('/login', { // Укажите ваш URL (например, http://localhost:8000/login)
+        const response = await fetch('/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Обязательно указываем, что это JSON
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data) // Превращаем объект JS в строку JSON
+            body: JSON.stringify(payload)
         });
 
-        // 4. Обрабатываем ответ
+        // Пытаемся распарсить ответ как JSON в любом случае
+        const data = await response.json();
+
         if (response.ok) {
-            const result = await response.json();
-            console.log('Успех:', result);
-            alert('Вы успешно вошли!');
-            // Здесь можно сделать редирект, например:
-            // window.location.href = '/dashboard'; 
+            // Если сервер прислал ссылку для редиректа — переходим
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            }
         } else {
-            const error = await response.json();
-            alert('Ошибка: ' + (error.detail || 'Неверный логин или пароль'));
+            // Обработка ошибки 401 или других
+            alert(`Error: ${data.detail || 'Login failed'}`);
         }
     } catch (error) {
-        console.error('Ошибка сети:', error);
-        alert('Не удалось соединиться с сервером');
+        console.error('Network or Parsing Error:', error);
+        alert('Connection error. Please check server logs/console.');
     }
 });

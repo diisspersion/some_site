@@ -1,35 +1,34 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Авторизация</title>
+    <title>Authorization</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="styles/style.css"> -->
      <link rel="stylesheet" href="{{ url_for('static', path='/styles/style.css') }}">
 </head>
 <body>
 
     <div class="login-wrapper">
         <div class="login-card">
-            <h2>Добро пожаловать</h2>
-            <p class="subtitle">Пожалуйста, войдите в свой аккаунт</p>
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Please log in to your account</p>
             
             <form id="loginForm">
                 <div class="input-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
                 </div>
 
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
 
-                <button type="submit" class="btn-login">Войти</button>
+                <button type="submit" class="btn-login">Login</button>
                 
                 <div class="footer-links">
-                    <a href="#">Забыли пароль?</a>
+                    <a href="#">Forgot password?</a>
                 </div>
             </form>
         </div>

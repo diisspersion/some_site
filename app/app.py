@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 from fastapi.templating import Jinja2Templates
@@ -37,17 +37,22 @@ async def root(request: Request):
 @app.post("/login")
 async def login(data: LoginRequest):
     if data.username == ADMIN_USERNAME and data.password == ADMIN_PASSWORD:
-        return {"message": "Успешный вход", "token": SECRET_TOKEN}
-    return {"error": "Неверные данные"}, 400
+        # Вместо редиректа возвращаем JSON с адресом
+        return {"redirect_url": "/stats"}
+
+    raise HTTPException(status_code=401, detail="Invalid username or password")
 
 
 @app.get("/stats", response_class=HTMLResponse)
-async def stats_page(request: Request):
+def stats_page(request: Request):
     data = {
+        # interval=1 блокирует выполнение на 1 секунду
         "cpu": psutil.cpu_percent(interval=1),
         "ram": psutil.virtual_memory().percent,
         "disk_usage": psutil.disk_usage("/").percent,
         "processes": len(psutil.pids())
-        }
-    return templates.TemplateResponse("stats.html",
-                                      {"request": request, **data})
+    }
+    return templates.TemplateResponse(
+        "stats.html",
+        {"request": request, **data}
+    )
