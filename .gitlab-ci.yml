@@ -20,7 +20,7 @@ cache:
 
 # Base template for Python jobs to reduce code duplication
 .python_base:
-  image: python:3.10-slim
+  image: python:latest
   before_script:
     - pip install --upgrade pip
     - pip install -r ./app/requirements.txt
