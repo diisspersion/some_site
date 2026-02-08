@@ -15,6 +15,7 @@ variables:
 .python_base:
   image: python:3.10-slim
   before_script:
+    - python3 -m pip install --upgrade pip
     - pip install -r ./app/requirements.txt
 
 lint:
