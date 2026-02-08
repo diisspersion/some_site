@@ -3,8 +3,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+
 from pydantic import BaseModel
+
 import psutil
+import os
+
+# Получаем значения из системы,
+# 'admin' и 'admin123' — значения по умолчанию для локальной разработки
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+SECRET_TOKEN = os.getenv("API_TOKEN", "fallback-token")
 
 app = FastAPI(title="System Resource Monitor")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -27,8 +36,8 @@ async def root(request: Request):
 
 @app.post("/login")
 async def login(data: LoginRequest):
-    if data.username == "admin" and data.password == "1234":
-        return {"message": "Успешный вход", "token": "fake-jwt-token"}
+    if data.username == ADMIN_USERNAME and data.password == ADMIN_PASSWORD:
+        return {"message": "Успешный вход", "token": SECRET_TOKEN}
     return {"error": "Неверные данные"}, 400
 
 
