@@ -38,8 +38,5 @@ build_image:
   services:
     - docker:dind
   script:
-    - docker build \
-      -f "$DOCKERFILE_PATH" \
-      -t "$CONTAINER_NAME:$CI_COMMIT_SHORT_SHA" \
-      .
+    - docker build -f "$DOCKERFILE_PATH" -t "$CONTAINER_NAME:$CI_COMMIT_SHORT_SHA" .
 
