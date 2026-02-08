@@ -30,6 +30,8 @@ lint:
 build_image:
   stage: build
   image: docker:latest
+  services:
+    - docker:dind
   script:
-    - ./build.sh
+    - docker build -f "./build/Dockerfile" -t some_site:$CI_COMMIT_SHORT_SHA .
 
