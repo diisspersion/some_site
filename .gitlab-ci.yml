@@ -52,7 +52,7 @@ build_image:
     # Build the image using the short commit SHA as a unique tag
     - docker build -f "$DOCKERFILE_PATH" -t "$IMAGE_TAG" -t "$LATEST_TAG" .
     - |
-      if [ "$CI_COMMIT_BRANCH" == "main"]; then
+      if [ "$CI_COMMIT_BRANCH" == "main" ]; then
         docker push $IMAGE_TAG
         docker push $LATEST_TAG
       else
