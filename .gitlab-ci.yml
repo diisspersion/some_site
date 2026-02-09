@@ -7,38 +7,54 @@ variables:
   # Prevent Python from writing .pyc files and enable real-time logging
   PYTHONDONTWRITEBYTECODE: "1"
   PYTHONUNBUFFERED: "1"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
   # Docker configuration
   DOCKERFILE_PATH: "./build/Dockerfile"
-  CONTAINER_NAME: "some_site"
+  IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
+  LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
+
+cache:
+  paths:
+    - .cache/pip
 
 # Base template for Python jobs to reduce code duplication
 .python_base:
-  image: python:3.10-slim
+  image: python:latest
   before_script:
-    - python3 -m pip install --upgrade pip
+    - pip install --upgrade pip
     - pip install -r ./app/requirements.txt
 
+# Perform static code analysis
 lint:
   extends: .python_base
   stage: lint
   script:
     - pip install flake8
-    - flake8 . # Perform static code analysis
+    - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
 security_scan:
   extends: .python_base
   stage: security
   script:
-    - pip install bandit safety
-    - bandit -r .       # Check for security vulnerabilities in code (e.g., hardcoded credentials)
-    - safety check      # Scan dependencies for known security flaws
+    - pip install bandit pip-audit
+    - bandit -r . -f custom   # Check for security vulnerabilities in code (e.g., hardcoded credentials)
+    - pip-audit               # Scan dependencies for known security flaws
 
 build_image:
   stage: build
   image: docker:latest
   services:
     - docker:dind       # Enable Docker-in-Docker to build images inside the runner
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     # Build the image using the short commit SHA as a unique tag
-    - docker build -f "$DOCKERFILE_PATH" -t "$CONTAINER_NAME:$CI_COMMIT_SHORT_SHA" .
+    - docker build -f "$DOCKERFILE_PATH" -t "$IMAGE_TAG" -t "$LATEST_TAG" .
+    - |
+      if [ "$CI_COMMIT_BRANCH" == "main"]; then
+        docker push $IMAGE_TAG
+        docker push $LATEST_TAG
+      else
+        echo "Skipping push: not on main branch"  
+      fi
